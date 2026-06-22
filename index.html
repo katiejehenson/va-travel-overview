@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Field Guide — Travel Advisor Lingo &amp; the FIT Trip Lifecycle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#10192B;
+    --ink-soft:#223150;
+    --ink-line: rgba(241,232,216,0.18);
+    --paper:#F2E9D8;
+    --paper-card:#FBF6EC;
+    --paper-line: rgba(16,25,43,0.12);
+    --brass:#C9A24C;
+    --brass-deep:#8C6A1F;
+    --rust:#A8472B;
+    --rust-bright:#E08259;
+    --teal:#3E6F6B;
+    --ink-muted:#5B6B85;
+    --cream-text:#EFE6D4;
+    --maxw: 1080px;
+    --radius: 4px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    line-height:1.08;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  .mono{ font-family:'Space Mono',monospace; }
+  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 28px; }
+  a{ color:inherit; }
+
+  /* ---------- top strip nav ---------- */
+  .topnav{
+    background:var(--ink);
+    color:var(--cream-text);
+    border-bottom:1px solid var(--ink-line);
+    position:sticky; top:0; z-index:50;
+  }
+  .topnav .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 28px;
+    flex-wrap:wrap; gap:10px;
+  }
+  .topnav .brand{
+    font-family:'Space Mono',monospace;
+    font-size:13px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--brass);
+  }
+  .topnav nav{ display:flex; gap:22px; }
+  .topnav nav a{
+    text-decoration:none;
+    font-family:'Space Mono',monospace;
+    font-size:12.5px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--cream-text);
+    opacity:0.85;
+    padding-bottom:2px;
+    border-bottom:1px solid transparent;
+    transition: opacity .2s, border-color .2s;
+  }
+  .topnav nav a:hover{ opacity:1; border-color:var(--brass); }
+
+  /* ---------- hero ---------- */
+  header.hero{
+    background:
+      radial-gradient(900px 420px at 85% -10%, rgba(201,162,76,0.16), transparent 60%),
+      var(--ink);
+    color:var(--cream-text);
+    padding:64px 0 0 0;
+  }
+  .eyebrow{
+    font-family:'Space Mono',monospace;
+    font-size:12.5px;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--brass);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:18px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:26px; height:1px; background:var(--brass);
+    display:inline-block;
+  }
+  h1.title{
+    font-size:clamp(2.1rem, 4.6vw, 3.4rem);
+    max-width:14ch;
+    color:#fff;
+  }
+  .hero p.lede{
+    margin-top:22px;
+    max-width:56ch;
+    font-size:1.08rem;
+    color:rgba(239,230,212,0.82);
+  }
+
+  /* boarding-pass meta strip */
+  .pass-strip{
+    margin-top:44px;
+    border-top:1px solid var(--ink-line);
+    border-bottom:1px solid var(--ink-line);
+    padding:18px 0;
+    display:flex;
+    flex-wrap:wrap;
+    gap:0;
+  }
+  .pass-field{
+    flex:1 1 150px;
+    padding:0 22px;
+    border-left:1px solid var(--ink-line);
+  }
+  .pass-field:first-child{ border-left:none; padding-left:0; }
+  .pass-field .k{
+    font-family:'Space Mono',monospace;
+    font-size:10.5px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--brass);
+    margin-bottom:6px;
+  }
+  .pass-field .v{
+    font-family:'Space Mono',monospace;
+    font-size:14px;
+    color:var(--cream-text);
+  }
+  .barcode{
+    display:flex; align-items:flex-end; gap:2px; height:30px; margin-top:14px;
+    opacity:0.55;
+  }
+  .barcode span{ display:block; width:3px; background:var(--cream-text); }
+
+  /* perforation divider */
+  .perf{
+    height:14px;
+    background:var(--ink);
+    position:relative;
+  }
+  .perf::after{
+    content:"";
+    position:absolute; left:0; right:0; bottom:-10px; height:20px;
+    background-image: radial-gradient(circle at 10px 10px, var(--paper) 9px, transparent 9.5px);
+    background-size:20px 20px;
+    background-repeat:repeat-x;
+  }
+
+  /* ---------- generic section ---------- */
+  section{ padding:78px 0; }
+  .section-head{
+    display:flex; justify-content:space-between; align-items:flex-end;
+    gap:24px; margin-bottom:38px; flex-wrap:wrap;
+  }
+  .section-head .num{
+    font-family:'Space Mono',monospace;
+    font-size:13px; color:var(--rust);
+    letter-spacing:0.1em;
+    margin-bottom:10px;
+    display:block;
+  }
+  .section-head h2{ font-size:clamp(1.7rem, 3vw, 2.4rem); max-width:16ch; }
+  .section-head .sub{
+    max-width:40ch; color:var(--ink-muted); font-size:0.98rem; padding-bottom:4px;
+  }
+
+  /* ---------- lingo filters ---------- */
+  .filters{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:30px; }
+  .filter-btn{
+    font-family:'Space Mono',monospace;
+    font-size:12px; letter-spacing:0.05em; text-transform:uppercase;
+    background:transparent;
+    border:1px solid var(--paper-line);
+    color:var(--ink-muted);
+    padding:8px 14px;
+    border-radius:100px;
+    cursor:pointer;
+    transition: all .18s ease;
+  }
+  .filter-btn:hover{ border-color:var(--brass-deep); color:var(--ink); }
+  .filter-btn.active{
+    background:var(--ink); color:var(--cream-text); border-color:var(--ink);
+  }
+
+  /* ---------- luggage tag cards ---------- */
+  .tag-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(250px,1fr));
+    gap:20px;
+  }
+  .tag-card{
+    background:var(--paper-card);
+    border:1px solid var(--paper-line);
+    padding:24px 22px 22px 30px;
+    position:relative;
+    clip-path: polygon(7% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 16%);
+    transition: transform .22s ease, box-shadow .22s ease;
+    opacity:0; transform:translateY(14px);
+  }
+  .tag-card.in-view{ opacity:1; transform:translateY(0); }
+  .tag-card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 10px 24px rgba(16,25,43,0.10);
+  }
+  .tag-hole{
+    position:absolute; top:14px; left:10px;
+    width:11px; height:11px; border-radius:50%;
+    background:var(--paper);
+    border:2px solid var(--ink-muted);
+    opacity:0.5;
+  }
+  .tag-code{
+    font-family:'Space Mono',monospace;
+    font-weight:700;
+    font-size:1.5rem;
+    color:var(--rust);
+    margin-bottom:4px;
+  }
+  .tag-term{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:1.02rem;
+    margin-bottom:10px;
+    color:var(--ink);
+  }
+  .tag-def{ font-size:0.93rem; color:var(--ink-muted); line-height:1.55; }
+  .tag-card[data-category="players"] .tag-code{ color:var(--rust); }
+  .tag-card[data-category="money"] .tag-code{ color:var(--brass-deep); }
+  .tag-card[data-category="process"] .tag-code{ color:var(--teal); }
+
+  /* ---------- lifecycle timeline ---------- */
+  #lifecycle{ background:var(--ink); color:var(--cream-text); }
+  #lifecycle .section-head h2{ color:#fff; }
+  #lifecycle .section-head .sub{ color:rgba(239,230,212,0.65); }
+  #lifecycle .section-head .num{ color:var(--brass); }
+
+  .timeline{ position:relative; padding-left:34px; }
+  .timeline::before{
+    content:"";
+    position:absolute; left:9px; top:6px; bottom:6px;
+    width:1px;
+    background-image: linear-gradient(var(--brass) 60%, transparent 0%);
+    background-size: 1px 10px;
+    background-repeat: repeat-y;
+  }
+  .stage{
+    position:relative;
+    padding-bottom:42px;
+    opacity:0; transform:translateY(14px);
+    transition: opacity .5s ease, transform .5s ease;
+  }
+  .stage.in-view{ opacity:1; transform:translateY(0); }
+  .stage:last-child{ padding-bottom:0; }
+  .stage::before{
+    content:"";
+    position:absolute; left:-34px; top:4px;
+    width:19px; height:19px; border-radius:50%;
+    background:var(--ink);
+    border:2px solid var(--brass);
+  }
+  .stage-top{
+    display:flex; align-items:baseline; gap:14px; flex-wrap:wrap; margin-bottom:8px;
+  }
+  .stage-num{
+    font-family:'Space Mono',monospace; font-size:12px; color:var(--brass); letter-spacing:0.1em;
+  }
+  .stage h3{ font-size:1.25rem; color:#fff; }
+  .stage .timing{
+    font-family:'Space Mono',monospace;
+    font-size:11.5px;
+    color:var(--rust-bright);
+    border:1px solid rgba(224,130,89,0.4);
+    padding:2px 9px;
+    border-radius:100px;
+  }
+  .stage p.desc{ color:rgba(239,230,212,0.78); max-width:62ch; margin-bottom:14px; font-size:0.97rem; }
+  .va-role{
+    background:rgba(201,162,76,0.08);
+    border-left:2px solid var(--brass);
+    padding:12px 16px;
+    max-width:62ch;
+  }
+  .va-role .k{
+    font-family:'Space Mono',monospace; font-size:10.5px; letter-spacing:0.1em;
+    color:var(--brass); text-transform:uppercase; margin-bottom:5px; display:block;
+  }
+  .va-role p{ margin:0; font-size:0.93rem; color:var(--cream-text); }
+
+  /* countdown sub-list for stage 6 */
+  .countdown{
+    margin-top:18px;
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(260px,1fr));
+    gap:10px;
+    max-width:760px;
+  }
+  .countdown-item{
+    display:flex; gap:12px; align-items:flex-start;
+    background:rgba(241,232,216,0.05);
+    border:1px solid var(--ink-line);
+    padding:10px 12px;
+  }
+  .countdown-item .badge{
+    font-family:'Space Mono',monospace;
+    font-size:11px; color:var(--ink);
+    background:var(--brass);
+    padding:3px 7px;
+    border-radius:3px;
+    white-space:nowrap;
+    flex-shrink:0;
+    margin-top:1px;
+  }
+  .countdown-item .label{ font-size:0.86rem; color:rgba(239,230,212,0.85); }
+
+  /* ---------- quick notes ---------- */
+  #notes{ background:var(--paper); }
+  .notes-grid{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:24px;
+  }
+  .note-card{
+    border-top:2px solid var(--ink);
+    padding-top:16px;
+    opacity:0; transform:translateY(14px);
+    transition: opacity .5s ease, transform .5s ease;
+  }
+  .note-card.in-view{ opacity:1; transform:translateY(0); }
+  .note-card .tag{
+    font-family:'Space Mono',monospace; font-size:11px; color:var(--rust);
+    letter-spacing:0.08em; text-transform:uppercase; margin-bottom:10px; display:block;
+  }
+  .note-card h3{ font-size:1.12rem; margin-bottom:8px; }
+  .note-card p{ color:var(--ink-muted); font-size:0.95rem; }
+
+  footer{
+    background:var(--ink); color:rgba(239,230,212,0.55);
+    padding:26px 0; font-family:'Space Mono',monospace; font-size:11.5px; letter-spacing:0.04em;
+  }
+  footer .wrap{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; }
+
+  @media (max-width: 640px){
+    section{ padding:56px 0; }
+    .pass-field{ flex:1 1 45%; margin-bottom:14px; }
+    .timeline{ padding-left:26px; }
+    .stage::before{ left:-26px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ transition:none !important; animation:none !important; }
+    .tag-card, .stage, .note-card{ opacity:1 !important; transform:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topnav">
+  <div class="wrap">
+    <span class="brand">Field Guide / 01</span>
+    <nav>
+      <a href="#lingo">The Lingo</a>
+      <a href="#lifecycle">The Lifecycle</a>
+      <a href="#notes">Quick Notes</a>
+    </nav>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">For the desk, not the brochure</p>
+    <h1 class="title">The language and lifecycle of FIT travel</h1>
+    <p class="lede">A reference for getting up to speed fast: what the acronyms actually mean, and what really happens — in order, with real timing — between a client's first inquiry and their welcome-home email.</p>
+
+    <div class="pass-strip">
+      <div class="pass-field">
+        <div class="k">Issued to</div>
+        <div class="v">New VA</div>
+      </div>
+      <div class="pass-field">
+        <div class="k">Trip type</div>
+        <div class="v">FIT</div>
+      </div>
+      <div class="pass-field">
+        <div class="k">Route</div>
+        <div class="v">Inquiry → Welcome Home</div>
+      </div>
+      <div class="pass-field">
+        <div class="k">Contents</div>
+        <div class="v">18 terms · 8 stages</div>
+      </div>
+    </div>
+    <div class="barcode" aria-hidden="true"></div>
+  </div>
+  <div class="perf"></div>
+</header>
+
+<main>
+
+<section id="lingo">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="num">SECTION 01</span>
+        <h2>The lingo</h2>
+      </div>
+      <p class="sub">Eighteen terms you'll hit in week one, grouped the way they actually come up — who's involved, what the money's called, and what's on the paperwork.</p>
+    </div>
+
+    <div class="filters">
+      <button class="filter-btn active" data-filter="all">All 18</button>
+      <button class="filter-btn" data-filter="players">The Players</button>
+      <button class="filter-btn" data-filter="money">Trip Types &amp; Money</button>
+      <button class="filter-btn" data-filter="process">Docs &amp; Process</button>
+    </div>
+
+    <div class="tag-grid" id="tagGrid">
+
+      <div class="tag-card" data-category="players"><span class="tag-hole"></span>
+        <div class="tag-code">DMC</div>
+        <div class="tag-term">Destination Management Company</div>
+        <p class="tag-def">A local company on the ground in the destination that handles logistics — drivers, guides, restaurant holds, transfers, local fixes. The client may never hear this term, but the DMC is often who actually makes the day-to-day trip happen.</p>
+      </div>
+
+      <div class="tag-card" data-category="players"><span class="tag-hole"></span>
+        <div class="tag-code">TA</div>
+        <div class="tag-term">Travel Advisor</div>
+        <p class="tag-def">The person you're supporting. Builds the itinerary, owns the client relationship, and is who suppliers pay commission to.</p>
+      </div>
+
+      <div class="tag-card" data-category="players"><span class="tag-hole"></span>
+        <div class="tag-code">IC</div>
+        <div class="tag-term">Independent Contractor</div>
+        <p class="tag-def">An advisor who books under a host agency's accreditation rather than running their own agency from scratch. Most solo advisors are ICs.</p>
+      </div>
+
+      <div class="tag-card" data-category="players"><span class="tag-hole"></span>
+        <div class="tag-code">HOST</div>
+        <div class="tag-term">Host Agency</div>
+        <p class="tag-def">Holds the IATA/CLIA accreditation numbers that let independent advisors earn commission, and provides supplier access and back-office support in exchange for a cut of each booking.</p>
+      </div>
+
+      <div class="tag-card" data-category="players"><span class="tag-hole"></span>
+        <div class="tag-code">SUP</div>
+        <div class="tag-term">Supplier</div>
+        <p class="tag-def">Whoever is actually delivering the travel — hotel, cruise line, tour operator, airline, or DMC. The advisor sells the trip; the supplier fulfills it.</p>
+      </div>
+
+      <div class="tag-card" data-category="players"><span class="tag-hole"></span>
+        <div class="tag-code">PAX</div>
+        <div class="tag-term">Passenger(s)</div>
+        <p class="tag-def">Shorthand for the traveler(s) on a booking. "2 PAX, ocean view" tells you everything you need at a glance.</p>
+      </div>
+
+      <div class="tag-card" data-category="money"><span class="tag-hole"></span>
+        <div class="tag-code">FIT</div>
+        <div class="tag-term">Free Independent Traveler</div>
+        <p class="tag-def">A custom trip built around one party's dates, pace, and preferences, rather than slotted into a group departure. This is the trip type behind most of this guide.</p>
+      </div>
+
+      <div class="tag-card" data-category="money"><span class="tag-hole"></span>
+        <div class="tag-code">GIT</div>
+        <div class="tag-term">Group Inclusive Travel</div>
+        <p class="tag-def">A prebuilt itinerary sold to many travelers at once — the opposite of FIT, and a useful contrast for why FIT trips need so much individual coordination.</p>
+      </div>
+
+      <div class="tag-card" data-category="money"><span class="tag-hole"></span>
+        <div class="tag-code">NET</div>
+        <div class="tag-term">Net Rate</div>
+        <p class="tag-def">What the supplier charges the advisor before any markup. The client-facing price is the net rate plus the advisor's margin, or the advisor charges a flat planning fee instead.</p>
+      </div>
+
+      <div class="tag-card" data-category="money"><span class="tag-hole"></span>
+        <div class="tag-code">COMM</div>
+        <div class="tag-term">Commission</div>
+        <p class="tag-def">The percentage — commonly 10 to 20% — a supplier pays the advisor after the trip is taken. It's why advisors can often charge clients little or nothing for the booking itself.</p>
+      </div>
+
+      <div class="tag-card" data-category="money"><span class="tag-hole"></span>
+        <div class="tag-code">SS</div>
+        <div class="tag-term">Single Supplement</div>
+        <p class="tag-def">Most rates assume two people splitting a room; a solo traveler pays this surcharge to cover the difference.</p>
+      </div>
+
+      <div class="tag-card" data-category="money"><span class="tag-hole"></span>
+        <div class="tag-code">FINAL</div>
+        <div class="tag-term">Final Payment Date</div>
+        <p class="tag-def">The deadline for the remaining balance, set well before departure. Miss it and suppliers can cancel the booking — this date drives most of the reminder emails you'll send.</p>
+      </div>
+
+      <div class="tag-card" data-category="process"><span class="tag-hole"></span>
+        <div class="tag-code">PNR</div>
+        <div class="tag-term">Passenger Name Record</div>
+        <p class="tag-def">The unique reference code tied to a flight reservation inside the booking system. It's what "confirmation number" usually means for air.</p>
+      </div>
+
+      <div class="tag-card" data-category="process"><span class="tag-hole"></span>
+        <div class="tag-code">GDS</div>
+        <div class="tag-term">Global Distribution System</div>
+        <p class="tag-def">The backend network (Sabre, Amadeus, Travelport) advisors use to search live fares and inventory and issue tickets — the wholesale side of what you see on an airline's website.</p>
+      </div>
+
+      <div class="tag-card" data-category="process"><span class="tag-hole"></span>
+        <div class="tag-code">VOU</div>
+        <div class="tag-term">Voucher</div>
+        <p class="tag-def">Proof handed to a supplier that a service is already paid for. Present it at the hotel desk or with the guide and the bill's already settled — that's the point.</p>
+      </div>
+
+      <div class="tag-card" data-category="process"><span class="tag-hole"></span>
+        <div class="tag-code">ETA</div>
+        <div class="tag-term">Electronic Travel Authorization</div>
+        <p class="tag-def">A pre-arrival entry permission some countries require before a flight — separate from a visa, usually applied for online. Common enough now to get its own line on the pre-trip checklist.</p>
+      </div>
+
+      <div class="tag-card" data-category="process"><span class="tag-hole"></span>
+        <div class="tag-code">FAM</div>
+        <div class="tag-term">Familiarization Trip</div>
+        <p class="tag-def">A steeply discounted or complimentary trip a supplier offers an advisor so they can experience a hotel or destination firsthand. Selling something you've actually seen beats selling a brochure.</p>
+      </div>
+
+      <div class="tag-card" data-category="process"><span class="tag-hole"></span>
+        <div class="tag-code">CRM</div>
+        <div class="tag-term">Trip Management Platform</div>
+        <p class="tag-def">Where proposals, invoices, forms, and the day-by-day task calendar in this guide actually live (Travel Joy and Tern are common examples). If your advisor already runs one, most of Section 02 below is that system on autopilot.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="lifecycle">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="num">SECTION 02</span>
+        <h2>The lifecycle of an FIT trip</h2>
+      </div>
+      <p class="sub">Eight stages from first contact to six months after the client's home. Timing is shown relative to the trip's start date (T) — this is the rhythm your task list will run on.</p>
+    </div>
+
+    <div class="timeline">
+
+      <div class="stage">
+        <div class="stage-top">
+          <span class="stage-num">STAGE 01</span>
+          <h3>Inquiry</h3>
+          <span class="timing">DAY 0</span>
+        </div>
+        <p class="desc">A client reaches out — referral, repeat booking, web form. The first job is simply capturing what's true: dates, destination, party size, rough budget.</p>
+        <div class="va-role"><span class="k">VA role</span><p>Send the welcome email and inquiry form, log the lead in the CRM, and flag it for follow-up if there's no response within 48 hours.</p></div>
+      </div>
+
+      <div class="stage">
+        <div class="stage-top">
+          <span class="stage-num">STAGE 02</span>
+          <h3>Discovery call</h3>
+          <span class="timing">DAYS LATER</span>
+        </div>
+        <p class="desc">The advisor talks through the trip's real shape — style, pace, must-dos, and what the budget can actually buy.</p>
+        <div class="va-role"><span class="k">VA role</span><p>Get the call on the calendar, send the confirmation and reminder, and prep a one-page summary of anything already on file for the client.</p></div>
+      </div>
+
+      <div class="stage">
+        <div class="stage-top">
+          <span class="stage-num">STAGE 03</span>
+          <h3>Proposal &amp; planning fee</h3>
+          <span class="timing">WEEK 1–2</span>
+        </div>
+        <p class="desc">The advisor researches and drafts the proposal — hotels, DMC-arranged experiences, flights. Many charge a planning fee here before going further.</p>
+        <div class="va-role"><span class="k">VA role</span><p>Send the planning fee invoice, and once it clears, move the trip's status to Planning in the CRM so the next round of tasks unlocks.</p></div>
+      </div>
+
+      <div class="stage">
+        <div class="stage-top">
+          <span class="stage-num">STAGE 04</span>
+          <h3>Agreement &amp; deposit</h3>
+          <span class="timing">ON APPROVAL</span>
+        </div>
+        <p class="desc">The client approves the proposal, signs the Travel Services Agreement, and pays a deposit — usually alongside a credit card authorization for future charges.</p>
+        <div class="va-role"><span class="k">VA role</span><p>Send the agreement and CCA form, then confirm both the signature and the deposit have landed before anything gets confirmed with suppliers.</p></div>
+      </div>
+
+      <div class="stage">
+        <div class="stage-top">
+          <span class="stage-num">STAGE 05</span>
+          <h3>Booking</h3>
+          <span class="timing">T−180 TO T−90</span>
+        </div>
+        <p class="desc">The advisor locks rates and confirms space with every supplier and DMC, issues flights, and sends the client a confirmed itinerary.</p>
+        <div class="va-role"><span class="k">VA role</span><p>Send the booking and trip confirmation emails, and set up the payment schedule with reminders — these are what protect the final payment date.</p></div>
+      </div>
+
+      <div class="stage">
+        <div class="stage-top">
+          <span class="stage-num">STAGE 06</span>
+          <h3>Pre-trip operations</h3>
+          <span class="timing">T−60 TO T−1</span>
+        </div>
+        <p class="desc">The densest stretch, and mostly yours to run. The advisor designed the trip; the VA executes the calendar below, almost entirely on autopilot once it's set up.</p>
+        <div class="va-role"><span class="k">VA role</span><p>Work the countdown. Each item is destination-specific — nothing here repeats exactly the same way twice, even on a "standard" checklist.</p></div>
+
+        <div class="countdown">
+          <div class="countdown-item"><span class="badge">T−60</span><span class="label">Dining reservations requested, dietary restrictions logged</span></div>
+          <div class="countdown-item"><span class="badge">T−55</span><span class="label">Vaccinations &amp; visas flagged for a travel doctor</span></div>
+          <div class="countdown-item"><span class="badge">T−40</span><span class="label">Add-on experiences (photo shoots, etc.) confirmed</span></div>
+          <div class="countdown-item"><span class="badge">T−35</span><span class="label">Final paperwork requested from every supplier</span></div>
+          <div class="countdown-item"><span class="badge">T−30</span><span class="label">Currency &amp; pre-departure info sent to client</span></div>
+          <div class="countdown-item"><span class="badge">T−22</span><span class="label">Countdown document package assembled</span></div>
+          <div class="countdown-item"><span class="badge">T−14</span><span class="label">Final documents sent — vouchers, itinerary, insurance</span></div>
+          <div class="countdown-item"><span class="badge">T−10</span><span class="label">Trip app loaded; ETA/visa reminder sent</span></div>
+          <div class="countdown-item"><span class="badge">T−7</span><span class="label">Packing list sent; hotels reconfirmed directly</span></div>
+          <div class="countdown-item"><span class="badge">T−2</span><span class="label">Bon voyage email</span></div>
+          <div class="countdown-item"><span class="badge">T−1</span><span class="label">Flight check-in reminder</span></div>
+        </div>
+      </div>
+
+      <div class="stage">
+        <div class="stage-top">
+          <span class="stage-num">STAGE 07</span>
+          <h3>In-trip</h3>
+          <span class="timing">T+1</span>
+        </div>
+        <p class="desc">The client is traveling. Day-to-day, things mostly run themselves — until something doesn't.</p>
+        <div class="va-role"><span class="k">VA role</span><p>Send the day-one check-in, keep an eye on incoming messages, and if something goes wrong on the ground, the DMC's local contact is usually the one who actually fixes it — not the desk back home.</p></div>
+      </div>
+
+      <div class="stage">
+        <div class="stage-top">
+          <span class="stage-num">STAGE 08</span>
+          <h3>Post-trip</h3>
+          <span class="timing">T+2 TO T+6 MONTHS</span>
+        </div>
+        <p class="desc">The trip is over, but the relationship — and the commission — isn't fully closed out yet.</p>
+        <div class="va-role"><span class="k">VA role</span><p>Send the welcome-home and feedback emails, confirm commission was received and logged, and put a six-month check-in on the calendar to stay in front of the client's next trip.</p></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="notes">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="num">SECTION 03</span>
+        <h2>Three things to remember</h2>
+      </div>
+      <p class="sub">The lingo and the timeline will come with repetition. These won't — worth keeping in mind from day one.</p>
+    </div>
+
+    <div class="notes-grid">
+      <div class="note-card">
+        <span class="tag">On the ground</span>
+        <h3>The DMC fixes it, not you</h3>
+        <p>When something goes sideways mid-trip — a delayed transfer, a closed restaurant — route it to the destination contact. Logistics get solved locally, not from a desk eight time zones away.</p>
+      </div>
+      <div class="note-card">
+        <span class="tag">On the calendar</span>
+        <h3>Dates drive everything</h3>
+        <p>Most of the job is offset math: counting back from the trip's start date or forward from its end date. Get comfortable with T-minus thinking early — it's the spine of the whole lifecycle above.</p>
+      </div>
+      <div class="note-card">
+        <span class="tag">On every trip</span>
+        <h3>FIT means custom — assume nothing repeats</h3>
+        <p>Even tasks that look templated, like a packing list or an insurance email, need destination-specific details checked every single time. That's the whole point of "free independent."</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>FIELD GUIDE — BUILT FOR THE DESK, NOT THE BROCHURE</span>
+    <span>18 TERMS · 8 STAGES</span>
+  </div>
+</footer>
+
+<script>
+  // category filter
+  const buttons = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('.tag-card');
+  buttons.forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      buttons.forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      const f = btn.dataset.filter;
+      cards.forEach(c=>{
+        const show = (f === 'all' || c.dataset.category === f);
+        c.style.display = show ? '' : 'none';
+      });
+    });
+  });
+
+  // scroll reveal
+  const revealEls = document.querySelectorAll('.tag-card, .stage, .note-card');
+  if('IntersectionObserver' in window){
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, {threshold:0.12});
+    revealEls.forEach(el=>io.observe(el));
+  } else {
+    revealEls.forEach(el=>el.classList.add('in-view'));
+  }
+
+  // decorative barcode bars
+  const bc = document.querySelector('.barcode');
+  if(bc){
+    for(let i=0;i<60;i++){
+      const bar = document.createElement('span');
+      const h = 8 + Math.round(Math.random()*22);
+      bar.style.height = h + 'px';
+      bc.appendChild(bar);
+    }
+  }
+</script>
+
+</body>
+</html>
